@@ -6,6 +6,10 @@ const Pedido = require('./Pedido');
 const ItemPedido = require('./ItemPedido');
 const Envio = require('./Envio');
 const EmpresaLogistica = require('./EmpresaLogistica');
+const Usuario = require('./Usuario');
+const Productor = require('./Productor');
+const Consumidor = require('./Consumidor');
+const Administrador = require('./Administrador');
 
 // Carrito -> ItemCarrito
 Carrito.hasMany(ItemCarrito, {
@@ -47,6 +51,49 @@ Envio.belongsTo(EmpresaLogistica, {
     as: 'empresaLogistica'
 });
 
+// Usuario -> roles
+Usuario.hasOne(Productor, {
+    foreignKey: 'id',
+    as: 'productor'
+});
+Productor.belongsTo(Usuario, {
+    foreignKey: 'id',
+    as: 'usuario'
+});
+
+Usuario.hasOne(Consumidor, {
+    foreignKey: 'id',
+    as: 'consumidor'
+});
+Consumidor.belongsTo(Usuario, {
+    foreignKey: 'id',
+    as: 'usuario'
+});
+
+Usuario.hasOne(Administrador, {
+    foreignKey: 'id',
+    as: 'administrador'
+});
+Administrador.belongsTo(Usuario, {
+    foreignKey: 'id',
+    as: 'usuario'
+});
+
+// Consumidor -> Pedido (historial de pedidos)
+Consumidor.hasMany(Pedido, {
+    foreignKey: 'consumidor_id',
+    sourceKey: 'id',
+    as: 'historialPedidos',
+    onDelete: 'CASCADE'
+});
+Pedido.belongsTo(Consumidor, {
+    foreignKey: 'consumidor_id',
+    targetKey: 'id',
+    as: 'consumidor'
+});
+
+
+
 module.exports = {
     sequelize,
     Carrito,
@@ -54,5 +101,9 @@ module.exports = {
     Pedido,
     ItemPedido,
     Envio,
-    EmpresaLogistica
+    EmpresaLogistica,
+    Usuario,
+    Productor,
+    Consumidor,
+    Administrador
 };
