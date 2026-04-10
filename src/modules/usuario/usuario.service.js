@@ -8,8 +8,13 @@ const getById = async (id) => {
     return Usuario.findByPk(id);
 };
 
+const login = async (correo) => {
+    return Usuario.scope('withPassword').findOne({ where: { correo } });
+};
+
 const create = async (payload) => {
-    return Usuario.create(payload);
+    const usuario = await Usuario.create(payload);
+    return Usuario.findByPk(usuario.id);
 };
 
 const update = async (id, payload) => {
@@ -20,7 +25,7 @@ const update = async (id, payload) => {
     }
 
     await usuario.update(payload);
-    return usuario;
+    return Usuario.findByPk(usuario.id);
 };
 
 const remove = async (id) => {
@@ -31,6 +36,7 @@ const remove = async (id) => {
 module.exports = {
     getAll,
     getById,
+    login,
     create,
     update,
     remove

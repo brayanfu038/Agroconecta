@@ -23,11 +23,59 @@ const getById = async (req, res) => {
     }
 };
 
+const login = async (req, res) => {
+    try {
+        const { correo, contrasena } = req.body;
+
+        if (!correo) {
+            return res.status(400).json({ message: 'El correo es obligatorio' });
+        }
+
+        if (!contrasena) {
+            return res.status(400).json({ message: 'La contrasena es obligatoria' });
+        }
+
+        const usuario = await usuarioService.login(correo);
+
+        if (!usuario) {
+            return res.status(401).json({ message: 'Credenciales invalidas' });
+        }
+
+        if (usuario.contrasena !== contrasena) {
+            return res.status(401).json({ message: 'Credenciales invalidas' });
+        }
+
+        res.json({
+            message: 'Inicio de sesion exitoso',
+            usuario: {
+                id: usuario.id,
+                nombre: usuario.nombre,
+                correo: usuario.correo,
+                telefono: usuario.telefono
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al iniciar sesion', error: error.message });
+    }
+};
+
 const create = async (req, res) => {
     try {
+        if (!req.body.contrasena) {
+            return res.status(400).json({ message: 'La contrasena es obligatoria' });
+        }
+
         const data = await usuarioService.create(req.body);
         res.status(201).json(data);
     } catch (error) {
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            return res.status(409).json({ message: 'El correo ya esta registrado' });
+        }
+
+        if (error.name === 'SequelizeValidationError') {
+            return res.status(400).json({ message: 'Datos de usuario invalidos', error: error.message });
+        }
+
         res.status(500).json({ message: 'Error al crear usuario', error: error.message });
     }
 };
@@ -63,6 +111,7 @@ const remove = async (req, res) => {
 module.exports = {
     getAll,
     getById,
+    login,
     create,
     update,
     remove

@@ -16,6 +16,10 @@ const Usuario = sequelize.define('Usuario', {
         allowNull: false,
         unique: true
     },
+    contrasena: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     telefono: {
         type: DataTypes.STRING,
         allowNull: false
@@ -28,6 +32,14 @@ const Usuario = sequelize.define('Usuario', {
     }
 }, {
     tableName: 'usuario',
+    defaultScope: {
+        attributes: { exclude: ['contrasena'] }
+    },
+    scopes: {
+        withPassword: {
+            attributes: { include: ['contrasena'] }
+        }
+    },
     timestamps: false
 });
 

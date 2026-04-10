@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroConecta | Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <main class="layout">
+        <section class="hero">
+            <p class="eyebrow">AgroConecta</p>
+            <h1>Ingresa con tu correo y contrasena</h1>
+            <p class="copy">
+                Este acceso sigue siendo simple, pero ahora ya permite registrar usuarios con una
+                contrasena minima y autenticarlos contra la base de datos.
+            </p>
+            <div class="hero-actions">
+                <button id="showLoginButton" type="button" class="ghost-button active">Login</button>
+                <button id="showRegisterButton" type="button" class="ghost-button">Crear usuario</button>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="stack">
+                <form id="loginForm" class="card">
+                    <h2>Iniciar sesion</h2>
+                    <label for="correo">Correo</label>
+                    <input id="correo" name="correo" type="email" placeholder="usuario@agroconecta.com" required>
+
+                    <label for="loginContrasena">Contrasena</label>
+                    <input id="loginContrasena" name="contrasena" type="password" placeholder="Tu contrasena" required>
+
+                    <button type="submit">Entrar</button>
+                    <p id="feedback" class="feedback" aria-live="polite"></p>
+                </form>
+
+                <form id="registerForm" class="card hidden">
+                    <h2>Crear usuario</h2>
+                    <label for="nombre">Nombre</label>
+                    <input id="nombre" name="nombre" type="text" placeholder="Nombre completo" required>
+
+                    <label for="registroCorreo">Correo</label>
+                    <input id="registroCorreo" name="correo" type="email" placeholder="nuevo@agroconecta.com" required>
+
+                    <label for="registroContrasena">Contrasena</label>
+                    <input id="registroContrasena" name="contrasena" type="password" placeholder="Minimo 4 caracteres" required>
+
+                    <label for="telefono">Telefono</label>
+                    <input id="telefono" name="telefono" type="text" placeholder="3001234567" required>
+
+                    <button type="submit">Guardar usuario</button>
+                    <p id="registerFeedback" class="feedback" aria-live="polite"></p>
+                </form>
+
+                <article id="welcomeCard" class="card card-secondary hidden">
+                    <p class="eyebrow">Sesion activa</p>
+                    <h2 id="welcomeName">Bienvenido</h2>
+                    <p id="welcomeEmail" class="detail"></p>
+                    <p id="welcomePhone" class="detail"></p>
+                    <button id="logoutButton" type="button" class="secondary-button">Cerrar sesion</button>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script src="/app.js"></script>
+</body>
+</html>
